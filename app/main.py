@@ -40,9 +40,13 @@ def brute_force_password() -> None:
 
     chunk = total // num_processes
     ranges = [
-        (i * chunk, (i + 1) * chunk, targets)
-        for i in range(num_processes)
-    ]
+    (
+        i * chunk,
+        (i + 1) * chunk if i < num_processes - 1 else total,
+        targets
+    )
+    for i in range(num_processes)
+]
 
     with Pool(num_processes) as pool:
         results = pool.map(check_range, ranges)
